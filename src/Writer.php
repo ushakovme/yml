@@ -14,9 +14,18 @@ class Writer extends Object
     public $shop;
 
     /**
-     * Writer constructor.
+     * @param string $fileName
+     * @return bool|int
      */
-    public function __construct(XMLWriter $writer = null)
+    public function write(string $fileName)
+    {
+        return file_put_contents($fileName, $this->writeToString());
+    }
+
+    /**
+     * @return mixed
+     */
+    public function writeToString(): string
     {
         $writer = new XMLWriter();
         $writer->openMemory();
@@ -25,27 +34,12 @@ class Writer extends Object
         $writer->startElement('yml_catalog');
         $writer->writeAttribute('date', (new DateTime('now'))->format('Y-m-d H:i'));
 
-        parent::__construct($writer);
-    }
-
-    /**
-     * @param string $fileName
-     * @return bool|int
-     */
-    public function write(string $fileName)
-    {
-        return file_put_contents($fileName, $this->writeToSting());
-    }
-
-    /**
-     * @return mixed
-     */
-    public function writeToString(): string
-    {
         if (null !== $this->shop) {
-            $this->shop->setWriter($this->writer)->write();
+            $this->shop->setWriter($writer)->write();
         }
-        return $this->writer->flush();
+
+        $writer->endElement();
+        return $writer->flush();
     }
 
     public function addShop(Shop $shop) {

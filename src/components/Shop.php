@@ -48,12 +48,22 @@ class Shop extends Object
 
     public function addCategory(Category $category)
     {
+
         $this->categories[] = $category;
     }
 
+    /**
+     * @param Currency $currency
+     */
     public function addCurrency(Currency $currency)
     {
-        $this->currencies[] = $currency;
+        if($is_valid = $currency->validate()) {
+            $this->currencies[] = $currency;
+        } else {
+            $this->errors['currency'][] = $currency->errors;
+        }
+
+        return $is_valid;
     }
 
     /**

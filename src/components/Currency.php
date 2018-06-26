@@ -22,15 +22,9 @@ class Currency extends Object
     const UAH = 'UAH';
     const KZT = 'KZT';
 
-    /**
-     * @throws IncorrectCurrencyRateException
-     * @throws IncorrectCurrencySignException
-     */
     public function write()
     {
         $this->writer->startElement('currency');
-        static::validateId($this->id);
-        static::validateRate($this->rate);
 
         $this->writer->writeAttribute('id', $this->id);
         $this->writer->writeAttribute('rate', $this->rate);
@@ -55,29 +49,16 @@ class Currency extends Object
             static::NBU,
             static::NBK,
             static::CB,
+            static::DEFAULT_RATE,
         ];
     }
 
-    /**
-     * @throws IncorrectCurrencySignException
-     */
-    public static function validateId($id)
-    {
-        if (!in_array($id, static::getSignList())) {
-            throw new IncorrectCurrencySignException();
-        }
-    }
-
-    /**
-     * @throws IncorrectCurrencyRateException
-     */
-    public static function validateRate($rate)
-    {
-        if (!in_array($rate, static::getSignList())) {
-            if (!is_numeric($rate)) {
-                throw new IncorrectCurrencyRateException();
-            }
-        }
+    public function rules() {
+        return [
+            [['id', 'rate'], 'required'],
+            ['id', 'one_of', static::getSignList()],
+            ['rate', 'one_of', static::getRateList()],
+        ];
     }
 
     /**
@@ -94,7 +75,7 @@ class Currency extends Object
      * @return $this
      */
     public function setRate($rate) {
-        $this->id = $rate;
+        $this->rate = $rate;
         return $this;
     }
 }
