@@ -6,7 +6,7 @@ use DateTime;
 use iamsaint\yml\components\Shop;
 use XMLWriter;
 
-class Writer extends Object
+class Writer extends BaseObject
 {
     /**
      * @var Shop $shop
@@ -16,6 +16,7 @@ class Writer extends Object
     /**
      * @param string $fileName
      * @return bool|int
+     * @throws \Exception
      */
     public function write(string $fileName)
     {
@@ -24,6 +25,7 @@ class Writer extends Object
 
     /**
      * @return mixed
+     * @throws \Exception
      */
     public function writeToString(): string
     {
@@ -34,7 +36,7 @@ class Writer extends Object
         $writer->startElement('yml_catalog');
         $writer->writeAttribute('date', (new DateTime('now'))->format('Y-m-d H:i'));
 
-        if (null !== $this->shop) {
+        if ($this->shop !== null) {
             $this->shop->setWriter($writer)->write();
         }
 
@@ -42,7 +44,11 @@ class Writer extends Object
         return $writer->flush();
     }
 
-    public function addShop(Shop $shop) {
+    /**
+     * @param Shop $shop
+     */
+    public function addShop(Shop $shop): void
+    {
         $this->shop = $shop;
     }
 

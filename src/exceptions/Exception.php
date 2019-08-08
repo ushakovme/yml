@@ -2,6 +2,11 @@
 
 namespace iamsaint\yml\exceptions;
 
-class Exception extends \Exception {
+/**
+ * Class Exception
+ * @package iamsaint\yml\exceptions
+ */
+class Exception extends \Exception
+{
 
 }

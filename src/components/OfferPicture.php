@@ -2,24 +2,34 @@
 
 namespace iamsaint\yml\components;
 
-use iamsaint\yml\Object;
+use iamsaint\yml\BaseObject;
 
-class OfferPicture extends Object
+/**
+ * Class OfferPicture
+ * @package iamsaint\yml\components
+ *
+ * @property string $url
+ */
+class OfferPicture extends BaseObject
 {
     public $url;
 
-    public function write()
+    public function write(): void
     {
         $this->writer->startElement('picture');
 
-        if (null !== $this->url) {
+        if ($this->url !== null) {
             $this->writer->text($this->url);
         }
 
         $this->writer->endElement();
     }
 
-    public function rules() {
+    /**
+     * @return array
+     */
+    public function rules(): array
+    {
         return [
             ['url', 'required'],
             ['url', 'url']
@@ -28,9 +38,10 @@ class OfferPicture extends Object
 
     /**
      * @param $url
-     * @return Object
+     * @return BaseObject
      */
-    public function setUrl($url): Object {
+    public function setUrl($url): BaseObject
+    {
         $this->url = $url;
         return $this;
     }

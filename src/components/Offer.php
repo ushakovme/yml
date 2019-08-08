@@ -2,10 +2,39 @@
 
 namespace iamsaint\yml\components;
 
-use iamsaint\yml\Object;
-use XMLWriter;
+use iamsaint\yml\BaseObject;
+use function count;
 
-class Offer extends Object
+/**
+ * Class Offer
+ * @package iamsaint\yml\components
+ *
+ * @property int $id
+ * @property string $type
+ * @property bool $available
+ * @property string $url
+ * @property float $price
+ * @property int $currencyId
+ * @property int $categoryId
+ * @property bool $store
+ * @property bool $delivery
+ * @property string $name
+ * @property array $deliveryOptions
+ * @property string $typePrefix
+ * @property string $vendor
+ * @property string $vendorCode
+ * @property string $model
+ * @property string $description
+ * @property string $salesNotes
+ * @property string $barcode
+ * @property int $age
+ * @property array $pictures
+ * @property bool $manufacturerWarranty
+ * @property array $countryOfOrigin
+ * @property OfferParam[] $params
+ * @property bool $adult
+ */
+class Offer extends BaseObject
 {
     public $id;
     public $type;
@@ -29,25 +58,30 @@ class Offer extends Object
     public $pictures = [];
     public $manufacturerWarranty = true;
     public $countryOfOrigin;
-    /** @var OfferParam[] $params */
     public $params;
     public $adult = false;
 
-    /**
-     * @throws \iamsaint\yml\exceptions\IncorrectCurrencySignException
-     * @throws \iamsaint\yml\exceptions\IncorrectCurrencyRateException
-     */
-    public function write()
+    public function write(): void
     {
         $this->writer->startElement('offer');
         $this->writer->writeAttribute('id', $this->id);
-        if(null !== $this->type) $this->writer->writeAttribute('type', $this->type);
+        if ($this->type !== null) {
+            $this->writer->writeAttribute('type', $this->type);
+        }
         $this->writer->writeAttribute('available', $this->available ? 'true' : 'false');
 
-        if(null !== $this->url) $this->writer->writeElement('url', $this->url);
-        if(null !== $this->price) $this->writer->writeElement('price', $this->price);
-        if(null !== $this->currencyId) $this->writer->writeElement('currencyId', $this->currencyId);
-        if(null !== $this->categoryId) $this->writer->writeElement('categoryId', $this->categoryId);
+        if ($this->url !== null) {
+            $this->writer->writeElement('url', $this->url);
+        }
+        if ($this->price !== null) {
+            $this->writer->writeElement('price', $this->price);
+        }
+        if ($this->currencyId !== null) {
+            $this->writer->writeElement('currencyId', $this->currencyId);
+        }
+        if ($this->categoryId !== null) {
+            $this->writer->writeElement('categoryId', $this->categoryId);
+        }
 
         if (count($this->pictures) > 0) {
             foreach ($this->pictures as $picture) {
@@ -55,17 +89,39 @@ class Offer extends Object
             }
         }
 
-        if($this->store) $this->writer->writeElement('store', $this->store ? 'true' : 'false');
-        if($this->delivery) $this->writer->writeElement('delivery', $this->delivery ? 'true' : 'false');
-        if(null !== $this->name) $this->writer->writeElement('name', $this->name);
-        if(null !== $this->vendor) $this->writer->writeElement('vendor', $this->vendor);
-        if(null !== $this->vendorCode) $this->writer->writeElement('vendorCode', $this->vendorCode);
-        if(null !== $this->model) $this->writer->writeElement('model', $this->model);
-        if(null !== $this->description) $this->writer->writeElement('description', $this->description);
-        if(null !== $this->salesNotes) $this->writer->writeElement('sales_notes', $this->salesNotes);
-        if(null !== $this->barcode) $this->writer->writeElement('barcode', $this->barcode);
-        if(null !== $this->age) $this->writer->writeElement('age', $this->age);
-        if($this->manufacturerWarranty) $this->writer->writeElement('manufacturer_warranty', $this->manufacturerWarranty ? 'true' : 'false');
+        if ($this->store) {
+            $this->writer->writeElement('store', $this->store ? 'true' : 'false');
+        }
+        if ($this->delivery) {
+            $this->writer->writeElement('delivery', $this->delivery ? 'true' : 'false');
+        }
+        if ($this->name !== null) {
+            $this->writer->writeElement('name', $this->name);
+        }
+        if ($this->vendor !== null) {
+            $this->writer->writeElement('vendor', $this->vendor);
+        }
+        if ($this->vendorCode !== null) {
+            $this->writer->writeElement('vendorCode', $this->vendorCode);
+        }
+        if ($this->model !== null) {
+            $this->writer->writeElement('model', $this->model);
+        }
+        if ($this->description !== null) {
+            $this->writer->writeElement('description', $this->description);
+        }
+        if ($this->salesNotes !== null) {
+            $this->writer->writeElement('sales_notes', $this->salesNotes);
+        }
+        if ($this->barcode !== null) {
+            $this->writer->writeElement('barcode', $this->barcode);
+        }
+        if ($this->age !== null) {
+            $this->writer->writeElement('age', $this->age);
+        }
+        if ($this->manufacturerWarranty) {
+            $this->writer->writeElement('manufacturer_warranty', $this->manufacturerWarranty ? 'true' : 'false');
+        }
 
         if (count($this->params) > 0) {
             foreach ($this->params as $param) {
@@ -73,63 +129,6 @@ class Offer extends Object
             }
         }
 
-
-        /*if (null !== $this->id) {
-            $this->writer->writeAttribute('id', $this->id);
-        }
-        if (null !== $this->type) {
-            $this->writer->writeAttribute('type', $this->type);
-        }
-
-        $this->writer->writeAttribute('available', $this->available ? 'true' : 'false');
-
-        if (null !== $this->url) {
-            $this->writer->writeElement('url', $this->url);
-        }
-        if (null !== $this->price) {
-            $this->writer->writeElement('price', $this->price);
-        }
-        if (null !== $this->currencyId) {
-            $this->writer->writeElement('currencyId', $this->currencyId);
-        }
-        if (null !== $this->categoryId) {
-            $this->writer->writeElement('categoryId', $this->categoryId);
-        }
-        if (null !== $this->delivery) {
-            $this->writer->writeAttribute('delivery', $this->delivery);
-        }
-        if (null !== $this->deliveryOptions) {
-            $this->writer->writeAttribute('delivery-options', $this->deliveryOptions);
-        }
-        if (null !== $this->typePrefix) {
-            $this->writer->writeAttribute('typePrefix', $this->typePrefix);
-        }
-        if (null !== $this->vendor) {
-            $this->writer->writeAttribute('vendor', $this->vendor);
-        }
-        if (null !== $this->vendorCode) {
-            $this->writer->writeAttribute('vendorCode', $this->vendorCode);
-        }
-        $this->writer->writeAttribute('model', $this->model);
-        if (null !== $this->model) {
-        }
-        if (null !== $this->description) {
-            $this->writer->writeAttribute('description', $this->description);
-        }
-        if (null !== $this->manufacturerWarranty) {
-            $this->writer->writeAttribute('manufacturer_warranty', $this->manufacturerWarranty);
-        }
-        if (null !== $this->countryOfOrigin) {
-            $this->writer->writeAttribute('country_of_origin', $this->countryOfOrigin);
-        }
-        if ($this->adult) {
-            $this->writer->writeAttribute('adult', 'true');
-        }
-        if (count($this->params) > 0) {
-            foreach ($this->params as $param) {
-                $param->write();
-            }
-        }*/
         $this->writer->endElement();
     }
 
@@ -137,37 +136,38 @@ class Offer extends Object
      * @param OfferParam $param
      * @return bool
      */
-    public function addParam(OfferParam $param)
+    public function addParam(OfferParam $param): ?bool
     {
-        if($param->validate()) {
+        if ($param->validate()) {
             $this->params[] = $param;
             return true;
-        } else {
-            $this->errors['params'][]=$param->errors;
-            return false;
         }
+
+        $this->errors['params'][] = $param->errors;
+        return false;
     }
 
     /**
-     * @param OfferPicture $picrure
+     * @param OfferPicture $picture
      * @return bool
      */
-    public function addPicture(OfferPicture $picrure)
+    public function addPicture(OfferPicture $picture): ?bool
     {
-        if($picrure->validate()) {
-            $this->pictures[] = $picrure;
+        if ($picture->validate()) {
+            $this->pictures[] = $picture;
             return true;
-        } else {
-            $this->errors['pictures'][]=$picrure->errors;
-            return false;
         }
+
+        $this->errors['pictures'][] = $picture->errors;
+        return false;
     }
 
     /**
      * @param $url
      * @return $this
      */
-    public function setUrl($url) {
+    public function setUrl($url): self
+    {
         $this->url = $url;
         return $this;
     }
@@ -176,7 +176,7 @@ class Offer extends Object
      * @param string $type
      * @return Offer
      */
-    public function setType(string $type)
+    public function setType(string $type): Offer
     {
         $this->type = $type;
         return $this;
@@ -186,7 +186,7 @@ class Offer extends Object
      * @param bool $available
      * @return Offer
      */
-    public function setAvailable(bool $available = true)
+    public function setAvailable(bool $available = true): Offer
     {
         $this->available = $available;
         return $this;
@@ -196,7 +196,7 @@ class Offer extends Object
      * @param mixed $price
      * @return Offer
      */
-    public function setPrice($price)
+    public function setPrice($price): Offer
     {
         $this->price = $price;
         return $this;
@@ -206,7 +206,7 @@ class Offer extends Object
      * @param mixed $currencyId
      * @return Offer
      */
-    public function setCurrencyId($currencyId)
+    public function setCurrencyId($currencyId): Offer
     {
         $this->currencyId = $currencyId;
         return $this;
@@ -216,7 +216,7 @@ class Offer extends Object
      * @param mixed $id
      * @return Offer
      */
-    public function setId($id)
+    public function setId($id): Offer
     {
         $this->id = $id;
         return $this;
@@ -226,7 +226,7 @@ class Offer extends Object
      * @param mixed $categoryId
      * @return Offer
      */
-    public function setCategoryId($categoryId)
+    public function setCategoryId($categoryId): Offer
     {
         $this->categoryId = $categoryId;
         return $this;
@@ -236,7 +236,7 @@ class Offer extends Object
      * @param bool $delivery
      * @return Offer
      */
-    public function setDelivery(bool $delivery)
+    public function setDelivery(bool $delivery): Offer
     {
         $this->delivery = $delivery;
         return $this;
@@ -246,7 +246,7 @@ class Offer extends Object
      * @param mixed $deliveryOptions
      * @return Offer
      */
-    public function setDeliveryOptions($deliveryOptions)
+    public function setDeliveryOptions($deliveryOptions): Offer
     {
         $this->deliveryOptions = $deliveryOptions;
         return $this;
@@ -256,7 +256,7 @@ class Offer extends Object
      * @param mixed $typePrefix
      * @return Offer
      */
-    public function setTypePrefix($typePrefix)
+    public function setTypePrefix($typePrefix): Offer
     {
         $this->typePrefix = $typePrefix;
         return $this;
@@ -266,7 +266,7 @@ class Offer extends Object
      * @param mixed $vendor
      * @return Offer
      */
-    public function setVendor($vendor)
+    public function setVendor($vendor): Offer
     {
         $this->vendor = $vendor;
         return $this;
@@ -276,7 +276,7 @@ class Offer extends Object
      * @param mixed $vendorCode
      * @return Offer
      */
-    public function setVendorCode($vendorCode)
+    public function setVendorCode($vendorCode): Offer
     {
         $this->vendorCode = $vendorCode;
         return $this;
@@ -286,7 +286,7 @@ class Offer extends Object
      * @param mixed $model
      * @return Offer
      */
-    public function setModel($model)
+    public function setModel($model): Offer
     {
         $this->model = $model;
         return $this;
@@ -296,7 +296,7 @@ class Offer extends Object
      * @param mixed $description
      * @return Offer
      */
-    public function setDescription($description)
+    public function setDescription($description): Offer
     {
         $this->description = $description;
         return $this;
@@ -306,7 +306,7 @@ class Offer extends Object
      * @param bool $manufacturerWarranty
      * @return Offer
      */
-    public function setManufacturerWarranty(bool $manufacturerWarranty)
+    public function setManufacturerWarranty(bool $manufacturerWarranty): Offer
     {
         $this->manufacturerWarranty = $manufacturerWarranty;
         return $this;
@@ -316,7 +316,7 @@ class Offer extends Object
      * @param mixed $countryOfOrigin
      * @return Offer
      */
-    public function setCountryOfOrigin($countryOfOrigin)
+    public function setCountryOfOrigin($countryOfOrigin): Offer
     {
         $this->countryOfOrigin = $countryOfOrigin;
         return $this;
@@ -326,16 +326,17 @@ class Offer extends Object
      * @param mixed $params
      * @return Offer
      */
-    public function setParams($params)
+    public function setParams($params): Offer
     {
         $this->params = $params;
         return $this;
     }
-   /**
+
+    /**
      * @param mixed $params
      * @return Offer
      */
-    public function setName($name)
+    public function setName($name): Offer
     {
         $this->name = $name;
         return $this;
@@ -345,7 +346,7 @@ class Offer extends Object
      * @param bool $adult
      * @return Offer
      */
-    public function setAdult(bool $adult)
+    public function setAdult(bool $adult): Offer
     {
         $this->adult = $adult;
         return $this;

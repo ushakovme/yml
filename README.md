@@ -1,3 +1,5 @@
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/iamsaint/yml/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/iamsaint/yml/?branch=master) [![Code Intelligence Status](https://scrutinizer-ci.com/g/iamsaint/yml/badges/code-intelligence.svg?b=master)](https://scrutinizer-ci.com/code-intelligence)
+
 Installation
 -------------
 ```
@@ -42,7 +44,7 @@ $subCategory = new Category();
 $subCategory
     ->setId(2)
     ->setParentId(1)
-    ->setName("My subategory");
+    ->setName("My subcategory");
 
 // add categories to shop
 $shop->addCategory($category);

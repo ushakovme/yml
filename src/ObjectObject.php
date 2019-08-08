@@ -4,8 +4,18 @@ namespace iamsaint\yml;
 
 use iamsaint\yml\exceptions\IncorrectRuleExceptin;
 use XMLWriter;
+use function {
+    is_array,
+    is_string,
+    count,
+    array_key_exists
+};
 
-class Object
+/**
+ * Class BaseObject
+ * @package iamsaint\yml
+ */
+class BaseObject
 {
     /**
      * @var XMLWriter $writer
@@ -15,7 +25,7 @@ class Object
     public $errors = [];
 
     /**
-     * Object constructor.
+     * BaseObject constructor.
      * @param XMLWriter|null $writer
      */
     public function __construct(XMLWriter $writer = null)
@@ -25,9 +35,9 @@ class Object
 
     /**
      * @param string $groupTag
-     * @param array|Object[] $elements
+     * @param array|BaseObject[] $elements
      */
-    public function writeElements(string $groupTag, array $elements)
+    public function writeElements(string $groupTag, array $elements): void
     {
         $this->writer->startElement($groupTag);
         foreach ($elements as $element) {
@@ -41,7 +51,7 @@ class Object
      * @param XMLWriter $writer
      * @return $this
      */
-    public function setWriter(XMLWriter $writer)
+    public function setWriter(XMLWriter $writer): self
     {
         $this->writer = $writer;
         return $this;
@@ -50,12 +60,15 @@ class Object
     /**
      * @return array
      */
-    public function rules()
+    public function rules(): array
     {
         return [];
     }
 
-    public function validate()
+    /**
+     * @return bool
+     */
+    public function validate(): bool
     {
         $this->errors = [];
         $rules = $this->rules();
@@ -72,21 +85,29 @@ class Object
                 throw new IncorrectRuleExceptin('Rule name must be a string');
             }
 
-            $class = '\\iamsaint\yml\\validators\\' . $rule[1];
+            $class = '\\iamsaint\\yml\\validators\\' . $rule[1];
 
             if (!class_exists($class)) {
                 throw new IncorrectRuleExceptin('Validator not found');
             }
 
             $attributes = is_array($rule[0]) ? $rule[0] : [$rule[0]];
-            (new $class())->validate($this, $attributes, $rule[2] ? : []);
+            (new $class())->validate($this, $attributes, $rule[2] ?: []);
         }
 
         return count($this->errors) === 0;
     }
 
-    public function addError($attribute, $text)
+    /**
+     * @param string $attribute
+     * @param string $text
+     */
+    public function addError($attribute, $text): void
     {
+        if (!array_key_exists($attribute, $this->errors)) {
+            $this->errors[$attribute] = [];
+        }
+
         $this->errors[$attribute][] = $text;
     }
 }

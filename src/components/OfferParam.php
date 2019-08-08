@@ -2,25 +2,33 @@
 
 namespace iamsaint\yml\components;
 
-use iamsaint\yml\Object;
+use iamsaint\yml\BaseObject;
 
-class OfferParam extends Object
+/**
+ * Class OfferParam
+ * @package iamsaint\yml\components
+ *
+ * @property string $name
+ * @property string $text
+ * @property string $unit
+ */
+class OfferParam extends BaseObject
 {
     public $name;
     public $text;
     public $unit;
 
-    public function write()
+    public function write(): void
     {
         $this->writer->startElement('param');
 
-        if (null !== $this->name) {
+        if ($this->name !== null) {
             $this->writer->writeAttribute('name', $this->name);
         }
-        if (null !== $this->unit) {
+        if ($this->unit !== null) {
             $this->writer->writeAttribute('unit', $this->unit);
         }
-        if (null !== $this->text) {
+        if ($this->text !== null) {
             $this->writer->text($this->text);
         }
 

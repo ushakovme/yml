@@ -3,15 +3,24 @@
 namespace iamsaint\yml\validators;
 
 use iamsaint\yml\interfaces\ValidatorInterface;
-use iamsaint\yml\Object;
+use iamsaint\yml\BaseObject;
 
-class url implements ValidatorInterface {
-
-    public function validate(Object &$object, array $attributes, array $options = []):void
+/**
+ * Class url
+ * @package iamsaint\yml\validators
+ */
+class url implements ValidatorInterface
+{
+    /**
+     * @param BaseObject $BaseObject
+     * @param array $attributes
+     * @param array $options
+     */
+    public function validate(BaseObject $BaseObject, array $attributes, array $options = []): void
     {
-        foreach ($attributes as $attribute){
-            if(!filter_var($object->$attribute, FILTER_VALIDATE_URL)) {
-                $object->addError($attribute, $attribute.' must be valid url');
+        foreach ($attributes as $attribute) {
+            if (!filter_var($BaseObject->$attribute, FILTER_VALIDATE_URL)) {
+                $BaseObject->addError($attribute, $attribute . ' must be valid url');
             }
         }
     }

@@ -3,15 +3,25 @@
 namespace iamsaint\yml\validators;
 
 use iamsaint\yml\interfaces\ValidatorInterface;
-use iamsaint\yml\Object;
+use iamsaint\yml\BaseObject;
+use function in_array;
 
-class one_of implements ValidatorInterface {
-
-    public function validate(Object &$object, array $attributes, array $options = []):void
+/**
+ * Class one_of
+ * @package iamsaint\yml\validators
+ */
+class one_of implements ValidatorInterface
+{
+    /**
+     * @param BaseObject $BaseObject
+     * @param array $attributes
+     * @param array $options
+     */
+    public function validate(BaseObject $BaseObject, array $attributes, array $options = []): void
     {
-        foreach ($attributes as $attribute){
-            if( !in_array($object->$attribute, $options)) {
-                $object->addError($attribute, $attribute.' must be element of ['.implode(', ', $options).']');
+        foreach ($attributes as $attribute) {
+            if (!in_array($BaseObject->$attribute, $options, true)) {
+                $BaseObject->addError($attribute, $attribute . ' must be element of [' . implode(', ', $options) . ']');
             }
         }
     }

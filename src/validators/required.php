@@ -3,15 +3,24 @@
 namespace iamsaint\yml\validators;
 
 use iamsaint\yml\interfaces\ValidatorInterface;
-use iamsaint\yml\Object;
+use iamsaint\yml\BaseObject;
 
-class required implements ValidatorInterface {
-
-    public function validate(Object &$object, array $attributes, array $options = []):void
+/**
+ * Class required
+ * @package iamsaint\yml\validators
+ */
+class required implements ValidatorInterface
+{
+    /**
+     * @param BaseObject $BaseObject
+     * @param array $attributes
+     * @param array $options
+     */
+    public function validate(BaseObject $BaseObject, array $attributes, array $options = []): void
     {
-        foreach ($attributes as $attribute){
-            if( strlen(trim( (string) $object->$attribute )) === 0) {
-                $object->addError($attribute, $attribute.' cannot be empty');
+        foreach ($attributes as $attribute) {
+            if (trim((string)$BaseObject->$attribute) === '') {
+                $BaseObject->addError($attribute, $attribute . ' cannot be empty');
             }
         }
     }

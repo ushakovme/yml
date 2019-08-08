@@ -1,10 +1,19 @@
 <?php
 
-
 namespace iamsaint\yml\interfaces;
 
-use iamsaint\yml\Object;
+use iamsaint\yml\BaseObject;
 
-interface ValidatorInterface {
-    public function validate(Object &$object, array $attributes, array $options = []):void;
+/**
+ * Interface ValidatorInterface
+ * @package iamsaint\yml\interfaces
+ */
+interface ValidatorInterface
+{
+    /**
+     * @param BaseObject $BaseObject
+     * @param array $attributes
+     * @param array $options
+     */
+    public function validate(BaseObject $BaseObject, array $attributes, array $options = []): void;
 }

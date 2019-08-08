@@ -2,9 +2,23 @@
 
 namespace iamsaint\yml\components;
 
-use iamsaint\yml\Object;
+use iamsaint\yml\BaseObject;
+use function count;
 
-class Shop extends Object
+/**
+ * Class Shop
+ * @package iamsaint\yml\components
+ *
+ * @property string $name
+ * @property string $company
+ * @property string $url
+ * @property Currency[] $currencies
+ * @property Category[] $categories
+ * @property array $deliveryOptions
+ * @property Offer[] $offers
+ * @property bool $adult
+ */
+class Shop extends BaseObject
 {
     public $name;
     public $company;
@@ -15,16 +29,16 @@ class Shop extends Object
     public $offers = [];
     public $adult = false;
 
-    public function write()
+    public function write(): void
     {
         $this->writer->startElement('shop');
-        if (null !== $this->name) {
+        if ($this->name !== null) {
             $this->writer->writeElement('name', $this->name);
         }
-        if (null !== $this->company) {
+        if ($this->company !== null) {
             $this->writer->writeElement('company', $this->company);
         }
-        if (null !== $this->url) {
+        if ($this->url !== null) {
             $this->writer->writeElement('url', $this->url);
         }
 
@@ -46,18 +60,21 @@ class Shop extends Object
         $this->writer->endElement();
     }
 
-    public function addCategory(Category $category)
+    /**
+     * @param Category $category
+     */
+    public function addCategory(Category $category): void
     {
-
         $this->categories[] = $category;
     }
 
     /**
      * @param Currency $currency
+     * @return bool
      */
-    public function addCurrency(Currency $currency)
+    public function addCurrency(Currency $currency): bool
     {
-        if($is_valid = $currency->validate()) {
+        if ($is_valid = $currency->validate()) {
             $this->currencies[] = $currency;
         } else {
             $this->errors['currency'][] = $currency->errors;
@@ -69,7 +86,7 @@ class Shop extends Object
     /**
      * @param Offer $offer
      */
-    public function addOffer(Offer $offer)
+    public function addOffer(Offer $offer): void
     {
         $this->offers[] = $offer;
     }
@@ -78,7 +95,7 @@ class Shop extends Object
      * @param mixed $name
      * @return Shop
      */
-    public function setName($name)
+    public function setName($name): Shop
     {
         $this->name = $name;
         return $this;
@@ -88,7 +105,7 @@ class Shop extends Object
      * @param mixed $company
      * @return Shop
      */
-    public function setCompany($company)
+    public function setCompany($company): Shop
     {
         $this->company = $company;
         return $this;
@@ -98,7 +115,7 @@ class Shop extends Object
      * @param mixed $url
      * @return Shop
      */
-    public function setUrl($url)
+    public function setUrl($url): Shop
     {
         $this->url = $url;
         return $this;

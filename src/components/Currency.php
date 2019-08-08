@@ -4,25 +4,32 @@ namespace iamsaint\yml\components;
 
 use iamsaint\yml\exceptions\IncorrectCurrencyRateException;
 use iamsaint\yml\exceptions\IncorrectCurrencySignException;
-use iamsaint\yml\Object;
+use iamsaint\yml\BaseObject;
 
-class Currency extends Object
+/**
+ * Class Currency
+ * @package iamsaint\yml\components
+ *
+ * @property int $id
+ * @property float $rate
+ */
+class Currency extends BaseObject
 {
     public $id;
     public $rate;
 
-    const CBRF = 'CBRF';
-    const NBU = 'NBU';
-    const NBK = 'NBK';
-    const CB = 'CB';
-    const DEFAULT_RATE = '1';
+    public const CBRF = 'CBRF';
+    public const NBU = 'NBU';
+    public const NBK = 'NBK';
+    public const CB = 'CB';
+    public const DEFAULT_RATE = '1';
 
-    const RUR = 'RUR';
-    const BYN = 'BYN';
-    const UAH = 'UAH';
-    const KZT = 'KZT';
+    public const RUR = 'RUR';
+    public const BYN = 'BYN';
+    public const UAH = 'UAH';
+    public const KZT = 'KZT';
 
-    public function write()
+    public function write(): void
     {
         $this->writer->startElement('currency');
 
@@ -32,32 +39,42 @@ class Currency extends Object
         $this->writer->endElement();
     }
 
-    public static function getSignList()
+    /**
+     * @return array
+     */
+    public static function getSignList(): array
     {
         return [
             static::RUR,
             static::BYN,
             static::UAH,
-            static::KZT,
+            static::KZT
         ];
     }
 
-    public static function getRateList()
+    /**
+     * @return array
+     */
+    public static function getRateList(): array
     {
         return [
             static::CBRF,
             static::NBU,
             static::NBK,
             static::CB,
-            static::DEFAULT_RATE,
+            static::DEFAULT_RATE
         ];
     }
 
-    public function rules() {
+    /**
+     * @return array
+     */
+    public function rules(): array
+    {
         return [
             [['id', 'rate'], 'required'],
             ['id', 'one_of', static::getSignList()],
-            ['rate', 'one_of', static::getRateList()],
+            ['rate', 'one_of', static::getRateList()]
         ];
     }
 
@@ -65,7 +82,8 @@ class Currency extends Object
      * @param $id
      * @return $this
      */
-    public function setId($id) {
+    public function setId($id): self
+    {
         $this->id = $id;
         return $this;
     }
@@ -74,7 +92,8 @@ class Currency extends Object
      * @param $rate
      * @return $this
      */
-    public function setRate($rate) {
+    public function setRate($rate): self
+    {
         $this->rate = $rate;
         return $this;
     }
