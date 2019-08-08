@@ -1,4 +1,4 @@
-[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/iamsaint/yml/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/iamsaint/yml/?branch=master) [![Code Intelligence Status](https://scrutinizer-ci.com/g/iamsaint/yml/badges/code-intelligence.svg?b=master)](https://scrutinizer-ci.com/code-intelligence)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/iamsaint/yml/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/iamsaint/yml/?branch=master) [![Code Intelligence Status](https://scrutinizer-ci.com/g/iamsaint/yml/badges/code-intelligence.svg?b=master)](https://scrutinizer-ci.com/code-intelligence) [![Build Status](https://scrutinizer-ci.com/g/iamsaint/yml/badges/build.png?b=master)](https://scrutinizer-ci.com/g/iamsaint/yml/build-status/master)
 
 Installation
 -------------
