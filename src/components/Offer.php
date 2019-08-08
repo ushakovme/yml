@@ -33,7 +33,7 @@ use function count;
  * @property array $countryOfOrigin
  * @property OfferParam[] $params
  * @property bool $adult
- * @property array $customTags
+ * @property Tag[] $customTags
  */
 class Offer extends BaseObject
 {
@@ -118,7 +118,7 @@ class Offer extends BaseObject
         if ($this->barcode !== null) {
             $this->writer->writeElement('barcode', $this->barcode);
         }
-        if ($this->age !== null) {
+        if ($this->age !== false) {
             $this->writer->writeElement('age', $this->age);
         }
         if ($this->manufacturerWarranty) {
@@ -138,8 +138,8 @@ class Offer extends BaseObject
 
     public function writeCustomTags()
     {
-        foreach ($this->customTags as $key => $value) {
-            $this->writer->writeElement($key, $value);
+        foreach ($this->customTags as $tag) {
+            $tag->setWriter($this->writer)->write();
         }
     }
 

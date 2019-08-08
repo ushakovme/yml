@@ -11,7 +11,7 @@ use iamsaint\yml\BaseObject;
  * @property string $name
  * @property int $id
  * @property int $parentId
- * @property array $customTags
+ * @property Tag[] $customTags
  */
 class Category extends BaseObject
 {
@@ -41,8 +41,8 @@ class Category extends BaseObject
 
     public function writeCustomTags()
     {
-        foreach ($this->customTags as $key => $value) {
-            $this->writer->writeElement($key, $value);
+        foreach ($this->customTags as $tag) {
+            $tag->setWriter($this->writer)->write();
         }
     }
 

@@ -37,4 +37,31 @@ class Tag extends BaseObject
 
         $this->writer->endElement();
     }
+
+    /**
+     * @param array $attributes
+     * @return Tag
+     */
+    public function setAttributes($attributes) {
+        $this->attributes = $attributes;
+        return $this;
+    }
+
+    /**
+     * @param string $key
+     * @return Tag
+     */
+    public function setKey($key) {
+        $this->key = $key;
+        return $this;
+    }
+
+    /**
+     * @param BaseObject|string $value
+     * @return Tag
+     */
+    public function setValue($value) {
+        $this->value = $value;
+        return $this;
+    }
 }
