@@ -44,7 +44,7 @@ class Offer extends BaseObject
     public $currencyId;
     public $categoryId;
     public $store = true;
-    public $delivery = true;
+    public $delivery = false;
     public $name;
     public $deliveryOptions;
     public $typePrefix;
