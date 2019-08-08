@@ -17,6 +17,7 @@ class OfferParam extends BaseObject
     public $name;
     public $text;
     public $unit;
+    public $customTags = [];
 
     public function write(): void
     {
@@ -32,6 +33,15 @@ class OfferParam extends BaseObject
             $this->writer->text($this->text);
         }
 
+        $this->writeCustomTags();
+
         $this->writer->endElement();
+    }
+
+    public function writeCustomTags()
+    {
+        foreach ($this->customTags as $key => $value) {
+            $this->writer->writeElement($key, $value);
+        }
     }
 }

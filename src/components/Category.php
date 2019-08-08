@@ -17,6 +17,7 @@ class Category extends BaseObject
     public $name;
     public $id;
     public $parentId;
+    public $customTags = [];
 
     public function write(): void
     {
@@ -32,7 +33,16 @@ class Category extends BaseObject
             $this->writer->text($this->name);
         }
 
+        $this->writeCustomTags();
+
         $this->writer->endElement();
+    }
+
+    public function writeCustomTags()
+    {
+        foreach ($this->customTags as $key => $value) {
+            $this->writer->writeElement($key, $value);
+        }
     }
 
     /**

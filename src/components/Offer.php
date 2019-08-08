@@ -60,6 +60,7 @@ class Offer extends BaseObject
     public $countryOfOrigin;
     public $params;
     public $adult = false;
+    public $customTags = [];
 
     public function write(): void
     {
@@ -123,6 +124,8 @@ class Offer extends BaseObject
             $this->writer->writeElement('manufacturer_warranty', $this->manufacturerWarranty ? 'true' : 'false');
         }
 
+        $this->writeCustomTags();
+
         if (count($this->params) > 0) {
             foreach ($this->params as $param) {
                 $param->setWriter($this->writer)->write();
@@ -130,6 +133,13 @@ class Offer extends BaseObject
         }
 
         $this->writer->endElement();
+    }
+
+    public function writeCustomTags()
+    {
+        foreach ($this->customTags as $key => $value) {
+            $this->writer->writeElement($key, $value);
+        }
     }
 
     /**
