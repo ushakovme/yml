@@ -9,10 +9,12 @@ use iamsaint\yml\BaseObject;
  * @package iamsaint\yml\components
  *
  * @property string $url
+ * @property array $customTags
  */
 class OfferPicture extends BaseObject
 {
     public $url;
+    public $customTags = [];
 
     public function write(): void
     {
@@ -22,7 +24,16 @@ class OfferPicture extends BaseObject
             $this->writer->text($this->url);
         }
 
+        $this->writeCustomTags();
+
         $this->writer->endElement();
+    }
+
+    public function writeCustomTags()
+    {
+        foreach ($this->customTags as $key => $value) {
+            $this->writer->writeElement($key, $value);
+        }
     }
 
     /**

@@ -17,6 +17,7 @@ use function count;
  * @property array $deliveryOptions
  * @property Offer[] $offers
  * @property bool $adult
+ * @property array $customTags
  */
 class Shop extends BaseObject
 {
@@ -28,6 +29,7 @@ class Shop extends BaseObject
     public $deliveryOptions;
     public $offers = [];
     public $adult = false;
+    public $customTags = [];
 
     public function write(): void
     {
@@ -57,9 +59,17 @@ class Shop extends BaseObject
             $this->writeElements('offers', $this->offers);
         }
 
+        $this->writeCustomTags();
+
         $this->writer->endElement();
     }
 
+    public function writeCustomTags()
+    {
+        foreach ($this->customTags as $key => $value) {
+            $this->writer->writeElement($key, $value);
+        }
+    }
     /**
      * @param Category $category
      */

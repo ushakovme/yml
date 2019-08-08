@@ -12,11 +12,13 @@ use iamsaint\yml\BaseObject;
  *
  * @property int $id
  * @property float $rate
+ * @property array $customTags
  */
 class Currency extends BaseObject
 {
     public $id;
     public $rate;
+    public $customTags = [];
 
     public const CBRF = 'CBRF';
     public const NBU = 'NBU';
@@ -36,7 +38,16 @@ class Currency extends BaseObject
         $this->writer->writeAttribute('id', $this->id);
         $this->writer->writeAttribute('rate', $this->rate);
 
+        $this->writeCustomTags();
+
         $this->writer->endElement();
+    }
+
+    public function writeCustomTags()
+    {
+        foreach ($this->customTags as $key => $value) {
+            $this->writer->writeElement($key, $value);
+        }
     }
 
     /**
