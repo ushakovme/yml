@@ -4,12 +4,11 @@ namespace iamsaint\yml;
 
 use iamsaint\yml\exceptions\IncorrectRuleExceptin;
 use XMLWriter;
-use function {
-    is_array,
-    is_string,
-    count,
-    array_key_exists
-};
+
+use function is_array;
+use function is_string;
+use function count;
+use function array_key_exists;
 
 /**
  * Class BaseObject
