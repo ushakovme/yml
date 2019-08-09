@@ -94,7 +94,7 @@ class Offer extends BaseObject
         if ($this->store) {
             $this->writer->writeElement('store', $this->store ? 'true' : 'false');
         }
-        if ($this->delivery) {
+        if (null !== $this->delivery) {
             $this->writer->writeElement('delivery', $this->delivery ? 'true' : 'false');
         }
         if ($this->name !== null) {
