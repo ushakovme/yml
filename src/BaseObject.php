@@ -3,6 +3,8 @@
 namespace iamsaint\yml;
 
 use iamsaint\yml\exceptions\IncorrectRuleException;
+use iamsaint\yml\interfaces\Base;
+use iamsaint\yml\interfaces\Validator;
 use XMLWriter;
 use function array_key_exists;
 use function count;
@@ -12,12 +14,12 @@ use function is_string;
 /**
  * Class BaseObject
  * @package iamsaint\yml
+ *
+ * @property XMLWriter $writer
+ * @property array $errors
  */
-class BaseObject
+class BaseObject implements Base
 {
-    /**
-     * @var XMLWriter $writer
-     */
     public $writer;
 
     public $errors = [];
@@ -28,43 +30,30 @@ class BaseObject
      */
     public function __construct(XMLWriter $writer = null)
     {
-        $this->writer = $writer;
+        $writer = $writer;
     }
 
     /**
      * @param string $groupTag
      * @param array|BaseObject[] $elements
+     * @param XMLWriter $writer
      */
-    public function writeElements(string $groupTag, array $elements): void
+    public function writeElements(XMLWriter $writer, string $groupTag, array $elements): void
     {
-        $this->writer->startElement($groupTag);
+        $writer->startElement($groupTag);
+
         foreach ($elements as $element) {
-            $element->setWriter($this->writer)->write($this->writer);
+            if ($element instanceof Base) {
+                $element->write($writer);
+            }
         }
 
-        $this->writer->endElement();
-    }
-
-    /**
-     * @param XMLWriter $writer
-     * @return $this
-     */
-    public function setWriter(XMLWriter $writer): self
-    {
-        $this->writer = $writer;
-        return $this;
-    }
-
-    /**
-     * @return array
-     */
-    public function rules(): array
-    {
-        return [];
+        $writer->endElement();
     }
 
     /**
      * @return bool
+     * @throws IncorrectRuleException
      */
     public function validate(): bool
     {
@@ -83,17 +72,30 @@ class BaseObject
                 throw new IncorrectRuleException('Rule name must be a string');
             }
 
-            $class = '\\iamsaint\\yml\\validators\\'.$rule[1];
+            $class = '\\iamsaint\\yml\\validators\\' . $rule[1];
 
             if (!class_exists($class)) {
                 throw new IncorrectRuleException('Validator not found');
             }
 
             $attributes = is_array($rule[0]) ? $rule[0] : [$rule[0]];
-            (new $class())->validate($this, $attributes, $rule[2] ?: []);
+
+            $validator = new $class();
+
+            if ($validator instanceof Validator) {
+                $validator->validate($this, $attributes, $rule[2] ?: []);
+            }
         }
 
         return count($this->errors) === 0;
+    }
+
+    /**
+     * @return array
+     */
+    public function rules(): array
+    {
+        return [];
     }
 
     /**
@@ -107,5 +109,12 @@ class BaseObject
         }
 
         $this->errors[$attribute][] = $text;
+    }
+
+    /**
+     * @param XMLWriter $writer
+     */
+    public function write($writer): void
+    {
     }
 }

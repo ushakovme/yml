@@ -3,6 +3,8 @@
 namespace iamsaint\yml\components;
 
 use iamsaint\yml\BaseObject;
+use iamsaint\yml\exceptions\IncorrectRuleException;
+use XMLWriter;
 use function count;
 
 /**
@@ -31,43 +33,49 @@ class Shop extends BaseObject
     public $adult = false;
     public $customTags = [];
 
-    public function write(): void
+    /**
+     * @param XMLWriter $writer
+     */
+    public function write($writer): void
     {
-        $this->writer->startElement('shop');
+        $writer->startElement('shop');
         if (null !== $this->name) {
-            $this->writer->writeElement('name', $this->name);
+            $writer->writeElement('name', $this->name);
         }
         if (null !== $this->company) {
-            $this->writer->writeElement('company', $this->company);
+            $writer->writeElement('company', $this->company);
         }
         if (null !== $this->url) {
-            $this->writer->writeElement('url', $this->url);
+            $writer->writeElement('url', $this->url);
         }
 
         if ($this->adult) {
-            $this->writer->writeElement('adult', 'true');
+            $writer->writeElement('adult', 'true');
         }
 
         if (count($this->currencies) > 0) {
-            $this->writeElements('currencies', $this->currencies);
+            $this->writeElements($writer, 'currencies', $this->currencies);
         }
 
         if (count($this->categories) > 0) {
-            $this->writeElements('categories', $this->categories);
+            $this->writeElements($writer, 'categories', $this->categories);
         }
         if (count($this->offers) > 0) {
-            $this->writeElements('offers', $this->offers);
+            $this->writeElements($writer, 'offers', $this->offers);
         }
 
-        $this->writeCustomTags();
+        $this->writeCustomTags($writer);
 
-        $this->writer->endElement();
+        $writer->endElement();
     }
 
-    public function writeCustomTags(): void
+    /**
+     * @param XMLWriter $writer
+     */
+    public function writeCustomTags($writer): void
     {
         foreach ($this->customTags as $tag) {
-            $tag->setWriter($this->writer)->write();
+            $tag->write($writer);
         }
     }
     /**
@@ -81,6 +89,7 @@ class Shop extends BaseObject
     /**
      * @param Currency $currency
      * @return bool
+     * @throws IncorrectRuleException
      */
     public function addCurrency(Currency $currency): bool
     {

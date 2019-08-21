@@ -3,6 +3,7 @@
 namespace iamsaint\yml\components;
 
 use iamsaint\yml\BaseObject;
+use XMLWriter;
 
 /**
  * Class OfferParam
@@ -20,29 +21,35 @@ class OfferParam extends BaseObject
     public $unit;
     public $customTags = [];
 
-    public function write(): void
+    /**
+     * @param XMLWriter $writer
+     */
+    public function write($writer): void
     {
-        $this->writer->startElement('param');
+        $writer->startElement('param');
 
         if (null !== $this->name) {
-            $this->writer->writeAttribute('name', $this->name);
+            $writer->writeAttribute('name', $this->name);
         }
         if (null !== $this->unit) {
-            $this->writer->writeAttribute('unit', $this->unit);
+            $writer->writeAttribute('unit', $this->unit);
         }
         if (null !== $this->text) {
-            $this->writer->text($this->text);
+            $writer->text($this->text);
         }
 
-        $this->writeCustomTags();
+        $this->writeCustomTags($writer);
 
-        $this->writer->endElement();
+        $writer->endElement();
     }
 
-    public function writeCustomTags(): void
+    /**
+     * @param XMLWriter $writer
+     */
+    public function writeCustomTags($writer): void
     {
         foreach ($this->customTags as $tag) {
-            $tag->setWriter($this->writer)->write();
+            $tag->write($writer);
         }
     }
 }

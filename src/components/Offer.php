@@ -3,6 +3,8 @@
 namespace iamsaint\yml\components;
 
 use iamsaint\yml\BaseObject;
+use iamsaint\yml\exceptions\IncorrectRuleException;
+use XMLWriter;
 use function count;
 
 /**
@@ -55,7 +57,7 @@ class Offer extends BaseObject
     public $description;
     public $salesNotes;
     public $barcode;
-    public $age = 0;
+    public $age = false;
     public $pictures = [];
     public $manufacturerWarranty = true;
     public $countryOfOrigin;
@@ -63,89 +65,96 @@ class Offer extends BaseObject
     public $adult = false;
     public $customTags = [];
 
-    public function write(): void
+    /**
+     * @param XMLWriter $writer
+     */
+    public function write($writer): void
     {
-        $this->writer->startElement('offer');
-        $this->writer->writeAttribute('id', $this->id);
+        $writer->startElement('offer');
+        $writer->writeAttribute('id', $this->id);
         if (null !== $this->type) {
-            $this->writer->writeAttribute('type', $this->type);
+            $writer->writeAttribute('type', $this->type);
         }
-        $this->writer->writeAttribute('available', $this->available ? 'true' : 'false');
+        $writer->writeAttribute('available', $this->available ? 'true' : 'false');
 
         if (null !== $this->url) {
-            $this->writer->writeElement('url', $this->url);
+            $writer->writeElement('url', $this->url);
         }
         if (null !== $this->price) {
-            $this->writer->writeElement('price', $this->price);
+            $writer->writeElement('price', $this->price);
         }
         if (null !== $this->currencyId) {
-            $this->writer->writeElement('currencyId', $this->currencyId);
+            $writer->writeElement('currencyId', $this->currencyId);
         }
         if (null !== $this->categoryId) {
-            $this->writer->writeElement('categoryId', $this->categoryId);
+            $writer->writeElement('categoryId', $this->categoryId);
         }
 
         if (count($this->pictures) > 0) {
             foreach ($this->pictures as $picture) {
-                $picture->setWriter($this->writer)->write();
+                $picture->write($writer);
             }
         }
 
         if ($this->store) {
-            $this->writer->writeElement('store', $this->store ? 'true' : 'false');
+            $writer->writeElement('store', $this->store ? 'true' : 'false');
         }
         if (null !== $this->delivery) {
-            $this->writer->writeElement('delivery', $this->delivery ? 'true' : 'false');
+            $writer->writeElement('delivery', $this->delivery ? 'true' : 'false');
         }
         if (null !== $this->name) {
-            $this->writer->writeElement('name', $this->name);
+            $writer->writeElement('name', $this->name);
         }
         if (null !== $this->vendor) {
-            $this->writer->writeElement('vendor', $this->vendor);
+            $writer->writeElement('vendor', $this->vendor);
         }
         if (null !== $this->vendorCode) {
-            $this->writer->writeElement('vendorCode', $this->vendorCode);
+            $writer->writeElement('vendorCode', $this->vendorCode);
         }
         if (null !== $this->model) {
-            $this->writer->writeElement('model', $this->model);
+            $writer->writeElement('model', $this->model);
         }
         if (null !== $this->description) {
-            $this->writer->writeElement('description', $this->description);
+            $writer->writeElement('description', $this->description);
         }
         if (null !== $this->salesNotes) {
-            $this->writer->writeElement('sales_notes', $this->salesNotes);
+            $writer->writeElement('sales_notes', $this->salesNotes);
         }
         if (null !== $this->barcode) {
-            $this->writer->writeElement('barcode', $this->barcode);
+            $writer->writeElement('barcode', $this->barcode);
         }
         if (false !== $this->age) {
-            $this->writer->writeElement('age', $this->age);
+            $writer->writeElement('age', $this->age);
         }
         if ($this->manufacturerWarranty) {
-            $this->writer->writeElement('manufacturer_warranty', $this->manufacturerWarranty ? 'true' : 'false');
+            $writer->writeElement('manufacturer_warranty', $this->manufacturerWarranty ? 'true' : 'false');
         }
 
-        $this->writeCustomTags();
+        $this->writeCustomTags($writer);
 
         if (count($this->params) > 0) {
             foreach ($this->params as $param) {
-                $param->setWriter($this->writer)->write();
+                $param->write($writer);
             }
         }
 
-        $this->writer->endElement();
+        $writer->endElement();
     }
 
-    public function writeCustomTags(): void
+    /**
+     * @param XMLWriter $writer
+     */
+    public function writeCustomTags($writer): void
     {
         foreach ($this->customTags as $tag) {
-            $tag->setWriter($this->writer)->write();
+            $tag->write($writer);
         }
     }
 
     /**
      * @param OfferParam $param
      * @return bool
+     * @throws IncorrectRuleException
      */
     public function addParam(OfferParam $param): ?bool
     {
@@ -161,6 +170,7 @@ class Offer extends BaseObject
     /**
      * @param OfferPicture $picture
      * @return bool
+     * @throws IncorrectRuleException
      */
     public function addPicture(OfferPicture $picture): ?bool
     {

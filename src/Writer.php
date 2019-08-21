@@ -7,7 +7,7 @@ use Exception;
 use iamsaint\yml\components\Shop;
 use XMLWriter;
 
-class Writer extends BaseObject
+class Writer
 {
     /**
      * @var Shop $shop
@@ -38,7 +38,7 @@ class Writer extends BaseObject
         $writer->writeAttribute('date', (new DateTimeImmutable('now'))->format('Y-m-d H:i'));
 
         if (null !== $this->shop) {
-            $this->shop->setWriter($writer)->write();
+            $this->shop->write($writer);
         }
 
         $writer->endElement();

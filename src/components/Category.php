@@ -3,6 +3,7 @@
 namespace iamsaint\yml\components;
 
 use iamsaint\yml\BaseObject;
+use XMLWriter;
 
 /**
  * Class Category
@@ -20,29 +21,35 @@ class Category extends BaseObject
     public $parentId;
     public $customTags = [];
 
-    public function write(): void
+    /**
+     * @param XMLWriter $writer
+     */
+    public function write($writer): void
     {
-        $this->writer->startElement('category');
+        $writer->startElement('category');
 
         if (null !== $this->id) {
-            $this->writer->writeAttribute('id', $this->id);
+            $writer->writeAttribute('id', $this->id);
         }
         if (null !== $this->parentId) {
-            $this->writer->writeAttribute('parentId', $this->parentId);
+            $writer->writeAttribute('parentId', $this->parentId);
         }
         if (null !== $this->name) {
-            $this->writer->text($this->name);
+            $writer->text($this->name);
         }
 
-        $this->writeCustomTags();
+        $this->writeCustomTags($writer);
 
-        $this->writer->endElement();
+        $writer->endElement();
     }
 
-    public function writeCustomTags(): void
+    /**
+     * @param XMLWriter $writer
+     */
+    public function writeCustomTags($writer): void
     {
         foreach ($this->customTags as $tag) {
-            $tag->setWriter($this->writer)->write();
+            $tag->write($writer);
         }
     }
 

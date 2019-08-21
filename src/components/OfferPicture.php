@@ -3,6 +3,7 @@
 namespace iamsaint\yml\components;
 
 use iamsaint\yml\BaseObject;
+use XMLWriter;
 
 /**
  * Class OfferPicture
@@ -16,23 +17,29 @@ class OfferPicture extends BaseObject
     public $url;
     public $customTags = [];
 
-    public function write(): void
+    /**
+     * @param XMLWriter $writer
+     */
+    public function write($writer): void
     {
-        $this->writer->startElement('picture');
+        $writer->startElement('picture');
 
         if (null !== $this->url) {
-            $this->writer->text($this->url);
+            $writer->text($this->url);
         }
 
-        $this->writeCustomTags();
+        $this->writeCustomTags($writer);
 
-        $this->writer->endElement();
+        $writer->endElement();
     }
 
-    public function writeCustomTags(): void
+    /**
+     * @param XMLWriter $writer
+     */
+    public function writeCustomTags($writer): void
     {
         foreach ($this->customTags as $tag) {
-            $tag->setWriter($this->writer)->write();
+            $tag->write($writer);
         }
     }
 

@@ -20,21 +20,24 @@ class Tag extends BaseObject
     public $value;
     public $attributes = [];
 
-    public function write(): void
+    /**
+     * @param \XMLWriter $writer
+     */
+    public function write($writer): void
     {
-        $this->writer->startElement($this->key);
+        $writer->startElement($this->key);
 
         foreach ($this->attributes as $key => $value) {
-            $this->writer->writeAttribute($key, $value);
+            $writer->writeAttribute($key, $value);
         }
 
         if ($this->value instanceof BaseObject) {
-            $this->writer->writeElement($this->groupKey, $this->value);
+            $writer->writeElement($this->groupKey, $this->value);
         } else {
-            $this->writer->text($this->value);
+            $writer->text($this->value);
         }
 
-        $this->writer->endElement();
+        $writer->endElement();
     }
 
     /**

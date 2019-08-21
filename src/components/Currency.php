@@ -3,6 +3,7 @@
 namespace iamsaint\yml\components;
 
 use iamsaint\yml\BaseObject;
+use XMLWriter;
 
 /**
  * Class Currency
@@ -14,38 +15,54 @@ use iamsaint\yml\BaseObject;
  */
 class Currency extends BaseObject
 {
-    public $id;
-    public $rate;
-    public $customTags = [];
-
     public const CBRF = 'CBRF';
     public const NBU = 'NBU';
     public const NBK = 'NBK';
     public const CB = 'CB';
     public const DEFAULT_RATE = '1';
-
     public const RUR = 'RUR';
     public const BYN = 'BYN';
     public const UAH = 'UAH';
     public const KZT = 'KZT';
+    public $id;
+    public $rate;
+    public $customTags = [];
 
-    public function write(): void
+    /**
+     * @param XMLWriter $writer
+     */
+    public function write($writer): void
     {
-        $this->writer->startElement('currency');
+        $writer->startElement('currency');
 
-        $this->writer->writeAttribute('id', $this->id);
-        $this->writer->writeAttribute('rate', $this->rate);
+        $writer->writeAttribute('id', $this->id);
+        $writer->writeAttribute('rate', $this->rate);
 
-        $this->writeCustomTags();
+        $this->writeCustomTags($writer);
 
-        $this->writer->endElement();
+        $writer->endElement();
     }
 
-    public function writeCustomTags(): void
+    /**
+     * @param XMLWriter $writer
+     */
+    public function writeCustomTags($writer): void
     {
         foreach ($this->customTags as $tag) {
-            $tag->setWriter($this->writer)->write();
+            $tag->write($writer);
         }
+    }
+
+    /**
+     * @return array
+     */
+    public function rules(): array
+    {
+        return [
+            [['id', 'rate'], 'required'],
+            ['id', 'one_of', static::getSignList()],
+            ['rate', 'one_of', static::getRateList()]
+        ];
     }
 
     /**
@@ -72,18 +89,6 @@ class Currency extends BaseObject
             static::NBK,
             static::CB,
             static::DEFAULT_RATE
-        ];
-    }
-
-    /**
-     * @return array
-     */
-    public function rules(): array
-    {
-        return [
-            [['id', 'rate'], 'required'],
-            ['id', 'one_of', static::getSignList()],
-            ['rate', 'one_of', static::getRateList()]
         ];
     }
 
