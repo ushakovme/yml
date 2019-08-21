@@ -78,6 +78,7 @@ class Shop extends BaseObject
             $tag->write($writer);
         }
     }
+
     /**
      * @param Category $category
      */

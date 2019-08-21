@@ -3,6 +3,7 @@
 namespace iamsaint\yml\components;
 
 use iamsaint\yml\BaseObject;
+use XMLWriter;
 
 /**
  * Class Shop
@@ -21,7 +22,7 @@ class Tag extends BaseObject
     public $attributes = [];
 
     /**
-     * @param \XMLWriter $writer
+     * @param XMLWriter $writer
      */
     public function write($writer): void
     {

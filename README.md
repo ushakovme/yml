@@ -64,10 +64,7 @@ $shop->addOffer($offer);
 // create writer
 $writer = new Writer();
 
-// add shop to writer
-$writer->addShop($shop);
-
 // write to file
-$writer->write('path/to/file.yml');
+$writer->write('path/to/file.yml', $shop);
 
 ```

@@ -13,12 +13,6 @@ use XMLWriter;
 interface Base
 {
     /**
-     * Base constructor.
-     * @param XMLWriter|null $writer
-     */
-    public function __construct(XMLWriter $writer = null);
-
-    /**
      * @param string $groupTag
      * @param array|BaseObject[] $elements
      * @param XMLWriter $writer

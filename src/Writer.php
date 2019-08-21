@@ -4,31 +4,31 @@ namespace iamsaint\yml;
 
 use DateTimeImmutable;
 use Exception;
-use iamsaint\yml\components\Shop;
 use XMLWriter;
 
+/**
+ * Class Writer
+ * @package iamsaint\yml
+ */
 class Writer
 {
     /**
-     * @var Shop $shop
-     */
-    public $shop;
-
-    /**
      * @param string $fileName
+     * @param BaseObject $object
      * @return bool|int
      * @throws Exception
      */
-    public function write(string $fileName)
+    public function write(string $fileName, BaseObject $object)
     {
-        return file_put_contents($fileName, $this->writeToString());
+        return file_put_contents($fileName, $this->writeToString($object));
     }
 
     /**
+     * @param BaseObject $object
      * @return mixed
      * @throws Exception
      */
-    public function writeToString(): string
+    private function writeToString($object): string
     {
         $writer = new XMLWriter();
         $writer->openMemory();
@@ -37,19 +37,11 @@ class Writer
         $writer->startElement('yml_catalog');
         $writer->writeAttribute('date', (new DateTimeImmutable('now'))->format('Y-m-d H:i'));
 
-        if (null !== $this->shop) {
-            $this->shop->write($writer);
+        if (null !== $object) {
+            $object->write($writer);
         }
 
         $writer->endElement();
         return $writer->flush();
-    }
-
-    /**
-     * @param Shop $shop
-     */
-    public function addShop(Shop $shop): void
-    {
-        $this->shop = $shop;
     }
 }

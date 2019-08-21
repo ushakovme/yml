@@ -15,23 +15,11 @@ use function is_string;
  * Class BaseObject
  * @package iamsaint\yml
  *
- * @property XMLWriter $writer
  * @property array $errors
  */
 class BaseObject implements Base
 {
-    public $writer;
-
     public $errors = [];
-
-    /**
-     * BaseObject constructor.
-     * @param XMLWriter|null $writer
-     */
-    public function __construct(XMLWriter $writer = null)
-    {
-        $writer = $writer;
-    }
 
     /**
      * @param string $groupTag
