@@ -2,7 +2,7 @@
 
 namespace iamsaint\yml;
 
-use DateTime;
+use DateTimeImmutable;
 use Exception;
 use iamsaint\yml\components\Shop;
 use XMLWriter;
@@ -35,7 +35,7 @@ class Writer extends BaseObject
         $writer->startDocument('1.0', 'UTF-8');
         $writer->setIndent(true);
         $writer->startElement('yml_catalog');
-        $writer->writeAttribute('date', (new DateTime('now'))->format('Y-m-d H:i'));
+        $writer->writeAttribute('date', (new DateTimeImmutable('now'))->format('Y-m-d H:i'));
 
         if (null !== $this->shop) {
             $this->shop->setWriter($writer)->write();
@@ -52,5 +52,4 @@ class Writer extends BaseObject
     {
         $this->shop = $shop;
     }
-
 }

@@ -28,7 +28,7 @@ class Tag extends BaseObject
             $this->writer->writeAttribute($key, $value);
         }
 
-        if($this->value instanceof BaseObject) {
+        if ($this->value instanceof BaseObject) {
             $this->writer->writeElement($this->groupKey, $this->value);
         } else {
             $this->writer->text($this->value);

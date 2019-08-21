@@ -24,5 +24,7 @@
         "psr-4": {
             "iamsaint\\yml\\": "src"
         }
+    },
+    "require-dev": {
     }
 }

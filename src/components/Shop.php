@@ -130,5 +130,4 @@ class Shop extends BaseObject
         $this->url = $url;
         return $this;
     }
-
 }
