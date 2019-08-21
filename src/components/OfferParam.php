@@ -24,13 +24,13 @@ class OfferParam extends BaseObject
     {
         $this->writer->startElement('param');
 
-        if ($this->name !== null) {
+        if (null !== $this->name) {
             $this->writer->writeAttribute('name', $this->name);
         }
-        if ($this->unit !== null) {
+        if (null !== $this->unit) {
             $this->writer->writeAttribute('unit', $this->unit);
         }
-        if ($this->text !== null) {
+        if (null !== $this->text) {
             $this->writer->text($this->text);
         }
 
@@ -39,7 +39,7 @@ class OfferParam extends BaseObject
         $this->writer->endElement();
     }
 
-    public function writeCustomTags()
+    public function writeCustomTags(): void
     {
         foreach ($this->customTags as $tag) {
             $tag->setWriter($this->writer)->write();

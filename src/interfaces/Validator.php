@@ -5,10 +5,10 @@ namespace iamsaint\yml\interfaces;
 use iamsaint\yml\BaseObject;
 
 /**
- * Interface ValidatorInterface
+ * Interface Validator
  * @package iamsaint\yml\interfaces
  */
-interface ValidatorInterface
+interface Validator
 {
     /**
      * @param BaseObject $BaseObject

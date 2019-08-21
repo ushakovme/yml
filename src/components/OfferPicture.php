@@ -20,7 +20,7 @@ class OfferPicture extends BaseObject
     {
         $this->writer->startElement('picture');
 
-        if ($this->url !== null) {
+        if (null !== $this->url) {
             $this->writer->text($this->url);
         }
 
@@ -29,7 +29,7 @@ class OfferPicture extends BaseObject
         $this->writer->endElement();
     }
 
-    public function writeCustomTags()
+    public function writeCustomTags(): void
     {
         foreach ($this->customTags as $tag) {
             $tag->setWriter($this->writer)->write();

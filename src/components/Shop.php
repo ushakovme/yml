@@ -34,13 +34,13 @@ class Shop extends BaseObject
     public function write(): void
     {
         $this->writer->startElement('shop');
-        if ($this->name !== null) {
+        if (null !== $this->name) {
             $this->writer->writeElement('name', $this->name);
         }
-        if ($this->company !== null) {
+        if (null !== $this->company) {
             $this->writer->writeElement('company', $this->company);
         }
-        if ($this->url !== null) {
+        if (null !== $this->url) {
             $this->writer->writeElement('url', $this->url);
         }
 
@@ -64,7 +64,7 @@ class Shop extends BaseObject
         $this->writer->endElement();
     }
 
-    public function writeCustomTags()
+    public function writeCustomTags(): void
     {
         foreach ($this->customTags as $tag) {
             $tag->setWriter($this->writer)->write();

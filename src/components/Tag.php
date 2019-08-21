@@ -3,7 +3,6 @@
 namespace iamsaint\yml\components;
 
 use iamsaint\yml\BaseObject;
-use function count;
 
 /**
  * Class Shop
@@ -42,7 +41,8 @@ class Tag extends BaseObject
      * @param array $attributes
      * @return Tag
      */
-    public function setAttributes($attributes) {
+    public function setAttributes($attributes): Tag
+    {
         $this->attributes = $attributes;
         return $this;
     }
@@ -51,7 +51,8 @@ class Tag extends BaseObject
      * @param string $key
      * @return Tag
      */
-    public function setKey($key) {
+    public function setKey($key): Tag
+    {
         $this->key = $key;
         return $this;
     }
@@ -60,7 +61,8 @@ class Tag extends BaseObject
      * @param BaseObject|string $value
      * @return Tag
      */
-    public function setValue($value) {
+    public function setValue($value): Tag
+    {
         $this->value = $value;
         return $this;
     }

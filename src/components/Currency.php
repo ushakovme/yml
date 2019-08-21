@@ -2,8 +2,6 @@
 
 namespace iamsaint\yml\components;
 
-use iamsaint\yml\exceptions\IncorrectCurrencyRateException;
-use iamsaint\yml\exceptions\IncorrectCurrencySignException;
 use iamsaint\yml\BaseObject;
 
 /**
@@ -43,7 +41,7 @@ class Currency extends BaseObject
         $this->writer->endElement();
     }
 
-    public function writeCustomTags()
+    public function writeCustomTags(): void
     {
         foreach ($this->customTags as $tag) {
             $tag->setWriter($this->writer)->write();

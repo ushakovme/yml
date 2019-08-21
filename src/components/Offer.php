@@ -67,21 +67,21 @@ class Offer extends BaseObject
     {
         $this->writer->startElement('offer');
         $this->writer->writeAttribute('id', $this->id);
-        if ($this->type !== null) {
+        if (null !== $this->type) {
             $this->writer->writeAttribute('type', $this->type);
         }
         $this->writer->writeAttribute('available', $this->available ? 'true' : 'false');
 
-        if ($this->url !== null) {
+        if (null !== $this->url) {
             $this->writer->writeElement('url', $this->url);
         }
-        if ($this->price !== null) {
+        if (null !== $this->price) {
             $this->writer->writeElement('price', $this->price);
         }
-        if ($this->currencyId !== null) {
+        if (null !== $this->currencyId) {
             $this->writer->writeElement('currencyId', $this->currencyId);
         }
-        if ($this->categoryId !== null) {
+        if (null !== $this->categoryId) {
             $this->writer->writeElement('categoryId', $this->categoryId);
         }
 
@@ -97,28 +97,28 @@ class Offer extends BaseObject
         if (null !== $this->delivery) {
             $this->writer->writeElement('delivery', $this->delivery ? 'true' : 'false');
         }
-        if ($this->name !== null) {
+        if (null !== $this->name) {
             $this->writer->writeElement('name', $this->name);
         }
-        if ($this->vendor !== null) {
+        if (null !== $this->vendor) {
             $this->writer->writeElement('vendor', $this->vendor);
         }
-        if ($this->vendorCode !== null) {
+        if (null !== $this->vendorCode) {
             $this->writer->writeElement('vendorCode', $this->vendorCode);
         }
-        if ($this->model !== null) {
+        if (null !== $this->model) {
             $this->writer->writeElement('model', $this->model);
         }
-        if ($this->description !== null) {
+        if (null !== $this->description) {
             $this->writer->writeElement('description', $this->description);
         }
-        if ($this->salesNotes !== null) {
+        if (null !== $this->salesNotes) {
             $this->writer->writeElement('sales_notes', $this->salesNotes);
         }
-        if ($this->barcode !== null) {
+        if (null !== $this->barcode) {
             $this->writer->writeElement('barcode', $this->barcode);
         }
-        if ($this->age !== false) {
+        if (false !== $this->age) {
             $this->writer->writeElement('age', $this->age);
         }
         if ($this->manufacturerWarranty) {
@@ -136,7 +136,7 @@ class Offer extends BaseObject
         $this->writer->endElement();
     }
 
-    public function writeCustomTags()
+    public function writeCustomTags(): void
     {
         foreach ($this->customTags as $tag) {
             $tag->setWriter($this->writer)->write();
@@ -344,7 +344,7 @@ class Offer extends BaseObject
     }
 
     /**
-     * @param mixed $params
+     * @param $name
      * @return Offer
      */
     public function setName($name): Offer

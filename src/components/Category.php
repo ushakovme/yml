@@ -24,13 +24,13 @@ class Category extends BaseObject
     {
         $this->writer->startElement('category');
 
-        if ($this->id !== null) {
+        if (null !== $this->id) {
             $this->writer->writeAttribute('id', $this->id);
         }
-        if ($this->parentId !== null) {
+        if (null !== $this->parentId) {
             $this->writer->writeAttribute('parentId', $this->parentId);
         }
-        if ($this->name !== null) {
+        if (null !== $this->name) {
             $this->writer->text($this->name);
         }
 
@@ -39,7 +39,7 @@ class Category extends BaseObject
         $this->writer->endElement();
     }
 
-    public function writeCustomTags()
+    public function writeCustomTags(): void
     {
         foreach ($this->customTags as $tag) {
             $tag->setWriter($this->writer)->write();

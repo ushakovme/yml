@@ -2,14 +2,14 @@
 
 namespace iamsaint\yml\validators;
 
-use iamsaint\yml\interfaces\ValidatorInterface;
 use iamsaint\yml\BaseObject;
+use iamsaint\yml\interfaces\Validator;
 
 /**
  * Class url
  * @package iamsaint\yml\validators
  */
-class url implements ValidatorInterface
+class url implements Validator
 {
     /**
      * @param BaseObject $BaseObject
