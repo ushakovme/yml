@@ -39,34 +39,54 @@ class Shop extends BaseObject
     public function write($writer): void
     {
         $writer->startElement('shop');
-        if (null !== $this->name) {
-            $writer->writeElement('name', $this->name);
-        }
-        if (null !== $this->company) {
-            $writer->writeElement('company', $this->company);
-        }
-        if (null !== $this->url) {
-            $writer->writeElement('url', $this->url);
+
+        $tags = [
+            ['name' => 'name', 'value' => $this->name, 'condition' => null],
+            ['name' => 'company', 'value' => $this->company, 'condition' => null],
+            ['name' => 'url', 'value' => $this->url, 'condition' => null],
+            ['name' => 'adult', 'value' => $this->adult, 'condition' => false],
+        ];
+
+        foreach ($tags as $tag) {
+            $this->writeTag($tag['name'], $tag['value'], $tag['condition']);
         }
 
-        if ($this->adult) {
-            $writer->writeElement('adult', 'true');
-        }
-
-        if (count($this->currencies) > 0) {
-            $this->writeElements($writer, 'currencies', $this->currencies);
-        }
-
-        if (count($this->categories) > 0) {
-            $this->writeElements($writer, 'categories', $this->categories);
-        }
-        if (count($this->offers) > 0) {
-            $this->writeElements($writer, 'offers', $this->offers);
-        }
-
+        $this->writeCurrencies($writer);
+        $this->writeCategories($writer);
+        $this->writeOffers($writer);
         $this->writeCustomTags($writer);
 
         $writer->endElement();
+    }
+
+    /**
+     * @param XMLWriter $writer
+     */
+    public function writeCurrencies($writer): void
+    {
+        if (count($this->currencies) > 0) {
+            $this->writeElements($writer, 'currencies', $this->currencies);
+        }
+    }
+
+    /**
+     * @param XMLWriter $writer
+     */
+    public function writeCategories($writer): void
+    {
+        if (count($this->categories) > 0) {
+            $this->writeElements($writer, 'categories', $this->categories);
+        }
+    }
+
+    /**
+     * @param XMLWriter $writer
+     */
+    public function writeOffers($writer): void
+    {
+        if (count($this->offers) > 0) {
+            $this->writeElements($writer, 'offers', $this->offers);
+        }
     }
 
     /**

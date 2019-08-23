@@ -92,11 +92,7 @@ class Offer extends BaseObject
             ['name' => 'manufacturer_warranty', 'value' => $this->manufacturerWarranty, 'condition' => null],
         ];
 
-        if (count($this->pictures) > 0) {
-            foreach ($this->pictures as $picture) {
-                $picture->write($writer);
-            }
-        }
+        $this->writePictures($writer);
 
         foreach ($tags as $tag) {
             $this->writeTag($tag['name'], $tag['value'], $tag['condition']);
@@ -104,13 +100,33 @@ class Offer extends BaseObject
 
         $this->writeCustomTags($writer);
 
+        $this->writeParams($writer);
+
+        $writer->endElement();
+    }
+
+    /**
+     * @param XMLWriter $writer
+     */
+    public function writePictures($writer): void
+    {
+        if (count($this->pictures) > 0) {
+            foreach ($this->pictures as $picture) {
+                $picture->write($writer);
+            }
+        }
+    }
+
+    /**
+     * @param XMLWriter $writer
+     */
+    public function writeParams($writer): void
+    {
         if (count($this->params) > 0) {
             foreach ($this->params as $param) {
                 $param->write($writer);
             }
         }
-
-        $writer->endElement();
     }
 
     /**

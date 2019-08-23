@@ -3,13 +3,11 @@
 namespace iamsaint\yml;
 
 use iamsaint\yml\exceptions\IncorrectRuleException;
+use iamsaint\yml\helpers\RuleHelper;
 use iamsaint\yml\interfaces\Base;
-use iamsaint\yml\interfaces\Validator;
 use XMLWriter;
 use function array_key_exists;
 use function count;
-use function is_array;
-use function is_string;
 
 /**
  * Class BaseObject
@@ -48,31 +46,7 @@ class BaseObject implements Base
         $this->errors = [];
         $rules = $this->rules();
         foreach ($rules as $rule) {
-            if (!is_array($rule)) {
-                throw new IncorrectRuleException('Rule must be array');
-            }
-
-            if (count($rule) < 2) {
-                throw new IncorrectRuleException('Rule is not defined');
-            }
-
-            if (!is_string($rule[1])) {
-                throw new IncorrectRuleException('Rule name must be a string');
-            }
-
-            $class = '\\iamsaint\\yml\\validators\\'.$rule[1];
-
-            if (!class_exists($class)) {
-                throw new IncorrectRuleException('Validator not found');
-            }
-
-            $attributes = is_array($rule[0]) ? $rule[0] : [$rule[0]];
-
-            $validator = new $class();
-
-            if ($validator instanceof Validator) {
-                $validator->validate($this, $attributes, $rule[2] ?: []);
-            }
+            RuleHelper::validate($this, $rule);
         }
 
         return count($this->errors) === 0;
