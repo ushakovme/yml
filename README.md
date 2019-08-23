@@ -15,10 +15,11 @@ How to use it
 ```php
 
 use iamsaint\yml\Writer;
-use iamsaint\yml\components\Shop;
-use iamsaint\yml\components\Offer;
-use iamsaint\yml\components\Currency;
-use iamsaint\yml\components\Category;
+use iamsaint\yml\components\{
+    Shop,
+    Currency,
+    Category
+}
 
 // create shop
 $shop = new Shop();
