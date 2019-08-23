@@ -40,4 +40,12 @@ interface Base
      * @param XMLWriter $writer
      */
     public function write($writer): void;
+
+    /**
+     * @param string $tagName
+     * @param mixed $value
+     * @param XMLWriter $writer
+     * @param null|bool $notWriteCondition
+     */
+    public function writeTag($tagName, $value, $writer, $notWriteCondition = null): void;
 }

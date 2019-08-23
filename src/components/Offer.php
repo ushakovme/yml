@@ -72,23 +72,25 @@ class Offer extends BaseObject
     {
         $writer->startElement('offer');
         $writer->writeAttribute('id', $this->id);
-        if (null !== $this->type) {
-            $writer->writeAttribute('type', $this->type);
-        }
-        $writer->writeAttribute('available', $this->available ? 'true' : 'false');
 
-        if (null !== $this->url) {
-            $writer->writeElement('url', $this->url);
-        }
-        if (null !== $this->price) {
-            $writer->writeElement('price', $this->price);
-        }
-        if (null !== $this->currencyId) {
-            $writer->writeElement('currencyId', $this->currencyId);
-        }
-        if (null !== $this->categoryId) {
-            $writer->writeElement('categoryId', $this->categoryId);
-        }
+        $tags = [
+            ['name' => 'type', 'value' => $this->type, 'condition' => null],
+            ['name' => 'available', 'value' => $this->available, 'condition' => null],
+            ['name' => 'url', 'value' => $this->url, 'condition' => null],
+            ['name' => 'price', 'value' => $this->price, 'condition' => null],
+            ['name' => 'currencyId', 'value' => $this->currencyId, 'condition' => null],
+            ['name' => 'categoryId', 'value' => $this->categoryId, 'condition' => null],
+            ['name' => 'store', 'value' => $this->store, 'condition' => null],
+            ['name' => 'delivery', 'value' => $this->delivery, 'condition' => null],
+            ['name' => 'name', 'value' => $this->name, 'condition' => null],
+            ['name' => 'vendor', 'value' => $this->vendor, 'condition' => null],
+            ['name' => 'model', 'value' => $this->model, 'condition' => null],
+            ['name' => 'description', 'value' => $this->description, 'condition' => null],
+            ['name' => 'sales_notes', 'value' => $this->salesNotes, 'condition' => null],
+            ['name' => 'barcode', 'value' => $this->barcode, 'condition' => null],
+            ['name' => 'age', 'value' => $this->age, 'condition' => false],
+            ['name' => 'manufacturer_warranty', 'value' => $this->manufacturerWarranty, 'condition' => null],
+        ];
 
         if (count($this->pictures) > 0) {
             foreach ($this->pictures as $picture) {
@@ -96,38 +98,8 @@ class Offer extends BaseObject
             }
         }
 
-        if ($this->store) {
-            $writer->writeElement('store', $this->store ? 'true' : 'false');
-        }
-        if (null !== $this->delivery) {
-            $writer->writeElement('delivery', $this->delivery ? 'true' : 'false');
-        }
-        if (null !== $this->name) {
-            $writer->writeElement('name', $this->name);
-        }
-        if (null !== $this->vendor) {
-            $writer->writeElement('vendor', $this->vendor);
-        }
-        if (null !== $this->vendorCode) {
-            $writer->writeElement('vendorCode', $this->vendorCode);
-        }
-        if (null !== $this->model) {
-            $writer->writeElement('model', $this->model);
-        }
-        if (null !== $this->description) {
-            $writer->writeElement('description', $this->description);
-        }
-        if (null !== $this->salesNotes) {
-            $writer->writeElement('sales_notes', $this->salesNotes);
-        }
-        if (null !== $this->barcode) {
-            $writer->writeElement('barcode', $this->barcode);
-        }
-        if (false !== $this->age) {
-            $writer->writeElement('age', $this->age);
-        }
-        if ($this->manufacturerWarranty) {
-            $writer->writeElement('manufacturer_warranty', $this->manufacturerWarranty ? 'true' : 'false');
+        foreach ($tags as $tag) {
+            $this->writeTag($tag['name'], $tag['value'], $tag['condition']);
         }
 
         $this->writeCustomTags($writer);
