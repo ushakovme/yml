@@ -60,7 +60,7 @@ class BaseObject implements Base
                 throw new IncorrectRuleException('Rule name must be a string');
             }
 
-            $class = '\\iamsaint\\yml\\validators\\' . $rule[1];
+            $class = '\\iamsaint\\yml\\validators\\'.$rule[1];
 
             if (!class_exists($class)) {
                 throw new IncorrectRuleException('Validator not found');
