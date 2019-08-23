@@ -17,6 +17,8 @@ How to use it
 use iamsaint\yml\Writer;
 use iamsaint\yml\components\Shop;
 use iamsaint\yml\components\Offer;
+use iamsaint\yml\components\Currency;
+use iamsaint\yml\components\Category;
 
 // create shop
 $shop = new Shop();
