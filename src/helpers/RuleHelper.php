@@ -15,6 +15,7 @@ use function class_exists;
  */
 class RuleHelper
 {
+    private const MIN_RULE_ARRAY_SIZE = 2;
 
     /**
      * @param $rule
@@ -44,7 +45,7 @@ class RuleHelper
      */
     private static function validateDefined($rule):void
     {
-        if (count($rule) < 2) {
+        if (count($rule) < self::MIN_RULE_ARRAY_SIZE) {
             throw new IncorrectRuleException('Rule is not defined');
         }
     }
