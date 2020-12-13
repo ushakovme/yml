@@ -48,7 +48,7 @@ class Shop extends BaseObject
         ];
 
         foreach ($tags as $tag) {
-            $this->writeTag($tag['name'], $tag['value'], $tag['condition']);
+            $this->writeTag($tag['name'], $tag['value'], $writer, $tag['condition']);
         }
 
         $this->writeCurrencies($writer);
