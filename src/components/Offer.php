@@ -61,7 +61,7 @@ class Offer extends BaseObject
     public $pictures = [];
     public $manufacturerWarranty = true;
     public $countryOfOrigin;
-    public $params;
+    public $params = [];
     public $adult = false;
     public $customTags = [];
 
