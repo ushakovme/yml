@@ -52,4 +52,19 @@ class OfferParam extends BaseObject
             $tag->write($writer);
         }
     }
+
+    public function setName(string $name): void
+    {
+        $this->name = $name;
+    }
+
+    public function setText(string $text): void
+    {
+        $this->text = $text;
+    }
+
+    public function setUnit(string $unit): void
+    {
+        $this->unit = $unit;
+    }
 }
