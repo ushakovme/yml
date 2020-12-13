@@ -95,7 +95,7 @@ class Offer extends BaseObject
         $this->writePictures($writer);
 
         foreach ($tags as $tag) {
-            $this->writeTag($tag['name'], $tag['value'], $tag['condition']);
+            $this->writeTag($tag['name'], $tag['value'], $writer, $tag['condition']);
         }
 
         $this->writeCustomTags($writer);
